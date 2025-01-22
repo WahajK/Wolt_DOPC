@@ -1,0 +1,5 @@
+venv/
+dopc_project/dopc/__pycache__/
+dopc_project/dopc/migrations/
+dopc_project/dopc_project/__pycache__/
+dopc_project/db.sqlite3
