@@ -104,8 +104,6 @@ class dopc_test_cases(unittest.TestCase):
             }
         )
         self.assertEqual(response.status_code, 400)
-        # json_response = response.json()
-        # self.assertGreater(json_response["small_order_surcharge"], 0)
 
     def test_invalid_venue_slug(self):
         """Test request with an invalid venue slug."""
