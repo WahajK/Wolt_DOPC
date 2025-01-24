@@ -15,6 +15,13 @@ def calculate_price(request):
             user_lat = float(request.GET.get('user_lat'))
             user_lon = float(request.GET.get('user_lon'))
 
+            try:
+                cart_value = int(cart_value)
+                if cart_value <= 0:
+                    raise ValueError("Cart value must be a positive integer")
+            except (ValueError, TypeError):
+                return JsonResponse({'error': 'Invalid cart value'}, status=400)
+
             # Fetch venue data
             static_data, dynamic_data = fetch_venue_data(venue_slug)
             if not static_data or not dynamic_data:
@@ -25,9 +32,11 @@ def calculate_price(request):
             order_minimum = dynamic_data['venue_raw']['delivery_specs']['order_minimum_no_surcharge']
             base_price = dynamic_data['venue_raw']['delivery_specs']['delivery_pricing']['base_price']
             distance_ranges = dynamic_data['venue_raw']['delivery_specs']['delivery_pricing']['distance_ranges']
-
+            max_distance = distance_ranges[-1]['min']
             # Calculate distance
             delivery_distance = calculate_distance((user_lat, user_lon), venue_coordinates)
+            if delivery_distance > max_distance:
+                return JsonResponse({'error': 'Delivery distance exceeds the allowed range.'}, status=400)
 
             # Find the applicable range for the delivery fee
             for range_ in distance_ranges:
