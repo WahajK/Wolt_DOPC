@@ -49,7 +49,7 @@ pip install -r requirements.txt
 
 ```bash
 git clone https://github.com/WahajK/Wolt_DOPC.git
-cd dopc
+cd Wolt_DOPC
 ```
 
 ### **Step 2: Install Dependencies**
