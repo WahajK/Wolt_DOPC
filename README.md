@@ -48,8 +48,8 @@ pip install -r requirements.txt
 ### **Step 1: Clone the Repository**
 
 ```bash
-git clone https://github.com/your-username/dopc.git
-cd dopc
+git clone https://github.com/WahajK/Wolt_DOPC.git
+cd Wolt_DOPC
 ```
 
 ### **Step 2: Install Dependencies**
