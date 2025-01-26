@@ -1,38 +1,36 @@
-import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .utils import calculate_distance
 from .utils import fetch_venue_data
 BASE_URL = "https://consumer-api.development.dev.woltapi.com/home-assignment-api/v1/venues/"
 
-
-"""
-Calculate the total price for a delivery order based on the cart value, user location, and venue data.
-Args:
-    request (HttpRequest): The HTTP request object containing query parameters:
-        - venue_slug (str): The slug identifier for the venue.
-        - cart_value (int): The value of the items in the cart.
-        - user_lat (float): The latitude of the user's location.
-        - user_lon (float): The longitude of the user's location.
-Returns:
-    JsonResponse: A JSON response containing:
-        - total_price (int): The total price including cart value, small order surcharge, and delivery fee.
-        - small_order_surcharge (int): The surcharge applied if the cart value is below the minimum order value.
-        - cart_value (int): The value of the items in the cart.
-        - delivery (dict): A dictionary containing:
-            - fee (int): The delivery fee based on the distance.
-            - distance (int): The calculated delivery distance.
-Raises:
-    JsonResponse: A JSON response with an error message and appropriate HTTP status code in case of:
-        - Invalid parameter data type (400)
-        - Invalid cart value (400)
-        - Unable to fetch venue data (400)
-        - Delivery distance exceeds the allowed range (400)
-        - Delivery not available for this distance (400)
-        - Invalid request method (405)
-"""
 @csrf_exempt
 def calculate_price(request):
+    """
+    Calculate the total price for a delivery order based on the cart value, user location, and venue data.
+    Args:
+        request (HttpRequest): The HTTP request object containing query parameters:
+            - venue_slug (str): The slug identifier for the venue.
+            - cart_value (int): The value of the items in the cart.
+            - user_lat (float): The latitude of the user's location.
+            - user_lon (float): The longitude of the user's location.
+    Returns:
+        JsonResponse: A JSON response containing:
+            - total_price (int): The total price including cart value, small order surcharge, and delivery fee.
+            - small_order_surcharge (int): The surcharge applied if the cart value is below the minimum order value.
+            - cart_value (int): The value of the items in the cart.
+            - delivery (dict): A dictionary containing:
+                - fee (int): The delivery fee based on the distance.
+                - distance (int): The calculated delivery distance.
+    Raises:
+        JsonResponse: A JSON response with an error message and appropriate HTTP status code in case of:
+            - Invalid parameter data type (400)
+            - Invalid cart value (400)
+            - Unable to fetch venue data (400)
+            - Delivery distance exceeds the allowed range (400)
+            - Delivery not available for this distance (400)
+            - Invalid request method (405)
+    """
     if request.method == 'GET':
         try:
             # Get query parameters
