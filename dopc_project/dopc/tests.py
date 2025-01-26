@@ -217,6 +217,36 @@ class dopc_test_cases(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 400)
         self.assertIn("error", response.json())
+        
+    def test_floating_point_cart_value(self):
+        response = self.client.get(
+			self.base_url, 
+			{
+				"venue_slug": "home-assignment-venue-berlin",
+				"cart_value": 1000.12, #Check for floating value
+				"user_lat": 52.5003197,
+				"user_lon": 13.4536149
+			}
+		)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("total_price", response.json())
+        self.assertIn("small_order_surcharge", response.json())
+        self.assertIn("delivery", response.json())
+
+    def test_string_cart_value(self):
+        response = self.client.get(
+            self.base_url, 
+            {
+                "venue_slug": "home-assignment-venue-berlin",
+                "cart_value": "test", #Check for string value
+                "user_lat": 52.5003197,
+                "user_lon": 13.4536149
+            }
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("total_price", response.json())
+        self.assertIn("small_order_surcharge", response.json())
+        self.assertIn("delivery", response.json())
 
 if __name__ == "__main__":
     unittest.main()
