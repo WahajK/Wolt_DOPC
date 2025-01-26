@@ -42,9 +42,10 @@ def calculate_price(request):
             return JsonResponse({'error': 'Invalid parameter data type'}, status=400)
 
         try:
-            cart_value = int(cart_value)
             if cart_value <= 0:
                 raise ValueError("Cart value must be a positive integer")
+            if user_lat < -90 or user_lat > 90 or user_lon < -180 or user_lon > 180:
+                raise ValueError("Invalid user location coordinates")
         except (ValueError, TypeError):
             return JsonResponse({'error': 'Invalid cart value'}, status=400)
 
